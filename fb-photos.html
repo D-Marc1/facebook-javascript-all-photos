@@ -1,0 +1,22 @@
+<div class="page" data-name="fb-photos">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/fb-albums/" class="link back">
+          <i class="icon icon-back"></i>
+        </a>
+      </div>
+      <div class="title">{{album_name}}</div>
+      <div class="right">
+        <a id="load-more-photos-link" data-album-id="{{album_id}}" class="link">Load More</a>
+      </div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div>
+      {{#photos}}
+      <img class="photo-thumb-link" data-full-photo-url="{{picture_full}}" src="{{picture}}">
+      {{/photos}}
+    </div>
+  </div>
+</div>
