@@ -61,7 +61,7 @@ function getMoreFbAlbums(function winCallback(obj response), function failCallba
 
 **Description**
 
-Get Facebook more albums until depletion
+Get more Facebook albums until depletion
 
 **Parameters**
 
@@ -74,7 +74,7 @@ function getMoreFbPhotosInAlbum(albumId, function winCallback(obj response), fun
 
 **Description**
 
-Get Facebook more photos in album until depletion
+Get more Facebook photos in album until depletion
 
 **Parameters**
 
