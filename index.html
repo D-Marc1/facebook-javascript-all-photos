@@ -35,9 +35,10 @@
         version          : 'v3.0'
       });
 
-      FB.getLoginStatus(function(response) {
+      FB.getLoginStatus(response => {
         app.dialog.close();
         $$('.page-current').show();
+        
         if(response.status === 'connected') {
           $$('#log-in-out-text').text('logged in')
             .addClass('text-color-green');
