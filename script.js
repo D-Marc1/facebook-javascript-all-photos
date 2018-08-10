@@ -1,6 +1,8 @@
 let currentAlbum;
 let pageLoaded = {fbAlbums: false, fbPhotos: false};
 
+let fb = new FbAllPhotos();
+
 let app = new Framework7({
   root: '#app',
   name: 'Get all Facebook Album Photos',
@@ -26,9 +28,9 @@ let app = new Framework7({
         }
 
         if(pageLoaded.fbAlbums) { //If page already loaded
-          getDataTemplate(fbAlbumsPhotosObj);
+          getDataTemplate(fb.fullObj);
         } else {
-          getFbAlbums(5, response => {
+          fb.getAlbums(5, response => {
             getDataTemplate(response);
             pageLoaded.fbAlbums = true;
           }, response => {
@@ -48,7 +50,7 @@ let app = new Framework7({
     {
       path: '/fb-photos/',
       async: (routeTo, routeFrom, resolve, reject) => {
-        const index = fbAlbumsPhotosObj.data.findIndex(album => album.id === currentAlbum); //get index of album
+        const index = fb.fullObj.data.findIndex(album => album.id == currentAlbum); //get index of album
 
         if(index === -1) {
           app.dialog.alert('', 'Album does not exist');
@@ -63,17 +65,17 @@ let app = new Framework7({
             {
               context: {
                 photos: response.data,
-                album_id: fbAlbumsPhotosObj.data[index].id,
-                album_name: fbAlbumsPhotosObj.data[index].name
+                album_id: fb.fullObj.data[index].id,
+                album_name: fb.fullObj.data[index].name
               }
             }
           );
         }
 
-        if(pageLoaded.fbPhotos && fbAlbumsPhotosObj.data[index].hasOwnProperty('photos')) { //If page already loaded and getFbPhotosInAlbum() called for album
-          getDataTemplate(fbAlbumsPhotosObj.data[index].photos);
+        if(pageLoaded.fbPhotos && fb.fullObj.data[index].hasOwnProperty('photos')) { //If page already loaded and fb.getPhotosInAlbum() called for album
+          getDataTemplate(fb.fullObj.data[index].photos);
         } else {
-          getFbPhotosInAlbum(currentAlbum, 5, response => {
+          fb.getPhotosInAlbum(currentAlbum, 5, response => {
             getDataTemplate(response);
             pageLoaded.fbPhotos = true;
           }, response => {
@@ -143,7 +145,7 @@ let app = new Framework7({
         });
 
         $$('#load-more-albums-link').click(function() {
-          getMoreFbAlbums(response => {
+          fb.getMoreAlbums(response => {
             mainView.router.refreshPage();
           }, response => {
             var userMsg;
@@ -160,15 +162,15 @@ let app = new Framework7({
       } else if(page.name === 'fb-photos') {
         $$('#load-more-photos-link').click(function() {
           currentAlbum = $$(this).data('album-id');
-          const index = fbAlbumsPhotosObj.data.findIndex(album => album.id === currentAlbum); //get index of album
+          const index = fb.fullObj.data.findIndex(album => album.id == currentAlbum); //get index of album
 
           if(index === -1) {
             app.dialog.alert('', 'Album does not exist');
             return;
           }
 
-          if(fbAlbumsPhotosObj.data[index].photos.paging.hasOwnProperty('next')) {
-            getMoreFbPhotosInAlbum(currentAlbum, response => {
+          if(fb.fullObj.data[index].photos.paging.hasOwnProperty('next')) {
+            fb.getMorePhotosInAlbum(currentAlbum, response => {
               mainView.router.refreshPage();
             }, response => {
               //the only error needed to handle, due to if check above to check object's next prop

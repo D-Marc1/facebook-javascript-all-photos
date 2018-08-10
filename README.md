@@ -25,9 +25,16 @@ FB.init({
 
 I made this in demo form for anyone to quickly get things workings. But if you'd like to just use the functions, then all you need is **fb-code.js**. You can obviously also use it as a starting point and edit each function to suit your needs. As shown in the tutorial, this will all be stored in an object called `fbAlbumsPhotosObj`. Additionally it'll be the response of `winCallback` for each function.
 
+## Constructor
 
 ```javascript
-function getFbAlbums(int limitAlbums = 5, function winCallback(obj response), function failCallback(string error))
+new FbAllPhotos()
+```
+
+## getAlbums()
+
+```javascript
+function getAlbums(int limitAlbums = 5, function winCallback(obj response), function failCallback(string error))
 ```
 
 **Description**
@@ -36,12 +43,14 @@ Get Facebook albums
 
 **Parameters**
 
-- **int limitAlbums** - The amount of albums to fetch at once
-- **function winCallback(obj response)** - On success
-- **function failCallback(string error)** - On failure
+- **limitAlbums** - The amount of albums to fetch at once
+- **winCallback(response)** - On success
+- **failCallback(error)** - On failure
+
+## getPhotosInAlbum()
 
 ```javascript
-function getFbPhotosInAlbum(int albumId, int limitPics = 10, function winCallback(obj response), function failCallback(string error))
+function getPhotosInAlbum(int|string albumId, int limitPics = 10, function winCallback(obj response), function failCallback(string error))
 ```
 
 **Description**
@@ -50,13 +59,15 @@ Get Facebook photos in an album
 
 **Parameters**
 
-- **int albumId** - The album id to get photos from
-- **int limitAlbums** - The amount of photos to fetch at once
-- **function winCallback(obj response)** - On success
-- **function failCallback(string error)** - On failure
+- ** albumId** - The album id to get photos from. Should just be `int`, but Facebook API returns the album id as a `string`
+- **limitAlbums** - The amount of photos to fetch at once
+- **winCallback(response)** - On success
+- **failCallback(error)** - On failure
+
+## getMoreAlbums()
 
 ```javascript
-function getMoreFbAlbums(function winCallback(obj response), function failCallback(string error))
+function getMoreAlbums(function winCallback(obj response), function failCallback(string error))
 ```
 
 **Description**
@@ -65,11 +76,13 @@ Get more Facebook albums until depletion
 
 **Parameters**
 
-- **function winCallback(obj response)** - On success
-- **function failCallback(string error)** - On failure
+- **winCallback(response)** - On success
+- **failCallback(error)** - On failure
+
+## getMorePhotosInAlbum()
 
 ```javascript
-function getMoreFbPhotosInAlbum(albumId, function winCallback(obj response), function failCallback(string error))
+function getMorePhotosInAlbum(int|string albumId, function winCallback(obj response), function failCallback(string error))
 ```
 
 **Description**
@@ -78,6 +91,6 @@ Get more Facebook photos in album until depletion
 
 **Parameters**
 
-- **int albumId** - The album id to get photos from
-- **function winCallback(obj response)** - On success
-- **function failCallback(string error)** - On failure
+- **albumId** - The album id to get photos from. Should just be `int`, but Facebook API returns the album id as a `string`
+- **winCallback(response)** - On success
+- **failCallback(error)** - On failure
