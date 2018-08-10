@@ -59,7 +59,7 @@ Get Facebook photos in an album
 
 **Parameters**
 
-- ** albumId** - The album id to get photos from. Should just be `int`, but Facebook API returns the album id as a `string`
+- **albumId** - The album id to get photos from. Should just be `int`, but Facebook API returns the album id as a `string`
 - **limitAlbums** - The amount of photos to fetch at once
 - **winCallback(response)** - On success
 - **failCallback(error)** - On failure
