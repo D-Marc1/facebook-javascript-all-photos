@@ -1,95 +1,95 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>My App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/framework7/3.1.0/css/framework7.css" />
-    <style>
-      .photo-thumb-link {
-        object-fit: cover;
-        object-position: center top;
-        width: 60px;
-        height: 60px;
-      }
-      .album-thumb {
-        width: 60px;
-        height: 60px;
-      }
-      #all-albums-link, #log-in-out-fb-link {
-        width: 100%;
-      }
-      #log-in-out-text {
-        margin-left: 5px;
-      }
-    </style>
-  </head>
-  <body>
-    <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId            : ENTER APP ID HERE,
-        autoLogAppEvents : true,
-        xfbml            : true,
-        version          : 'v3.0'
-      });
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<title>My App</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/framework7/3.1.0/css/framework7.css" />
+		<style>
+			.photo-thumb-link {
+				object-fit: cover;
+				object-position: center top;
+				width: 60px;
+				height: 60px;
+			}
+			.album-thumb {
+				width: 60px;
+				height: 60px;
+			}
+			#all-albums-link, #log-in-out-fb-link {
+				width: 100%;
+			}
+			#log-in-out-text {
+				margin-left: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId            : ENTER APP ID HERE,
+				autoLogAppEvents : true,
+				xfbml            : true,
+				version          : 'v3.0'
+			});
 
-      FB.getLoginStatus(response => {
-        app.dialog.close();
-        $$('.page-current').show();
+			FB.getLoginStatus(response => {
+				app.dialog.close();
+				$$('.page-current').show();
 
-        if(response.status === 'connected') {
-          $$('#log-in-out-text').text('logged in')
-            .addClass('text-color-green');
-          $$('#log-in-out-fb-link').text('Logout')
-            .attr('data-status', 'in')
-            .addClass('color-red');
-        } else {
-          $$('#log-in-out-text').text('logged out')
-            .addClass('text-color-red');
-          $$('#log-in-out-fb-link').text('Login')
-            .attr('data-status', 'out')
-            .addClass('color-green');
-        }
-      });
-    };
+				if(response.status === 'connected') {
+					$$('#log-in-out-text').text('logged in')
+						.addClass('text-color-green');
+					$$('#log-in-out-fb-link').text('Logout')
+						.attr('data-status', 'in')
+						.addClass('color-red');
+				} else {
+					$$('#log-in-out-text').text('logged out')
+						.addClass('text-color-red');
+					$$('#log-in-out-fb-link').text('Login')
+						.attr('data-status', 'out')
+						.addClass('color-green');
+				}
+			});
+		};
 
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "https://connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-    </script>
+		(function(d, s, id){
+			 var js, fjs = d.getElementsByTagName(s)[0];
+			 if (d.getElementById(id)) {return;}
+			 js = d.createElement(s); js.id = id;
+			 js.src = "https://connect.facebook.net/en_US/sdk.js";
+			 fjs.parentNode.insertBefore(js, fjs);
+		 }(document, 'script', 'facebook-jssdk'));
+		</script>
 
-    <div id="app">
-      <div class="view view-main">
-        <div data-name="index" class="page">
-          <div class="navbar">
-            <div class="navbar-inner sliding">
-              <div class="title">Facebook All Photos</div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="card">
-              <div class="card-header">
-                <p style="margin: 0px;">Status:<span id="log-in-out-text"></span></p>
-              </div>
-              <div class="card-content card-content-padding">
-                <a id="all-albums-link" href="/fb-albums/" class="button button-fill">Fb Albums</a>
-              </div>
-              <div class="card-footer">
-                <a id="log-in-out-fb-link" class="button button-fill"></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/framework7/3.1.0/js/framework7.min.js"></script>
-    <script src="fb-code.js"></script>
-    <script src="script.js"></script>
-  </body>
+		<div id="app">
+			<div class="view view-main">
+				<div data-name="index" class="page">
+					<div class="navbar">
+						<div class="navbar-inner sliding">
+							<div class="title">Facebook All Photos</div>
+						</div>
+					</div>
+					<div class="page-content">
+						<div class="card">
+							<div class="card-header">
+								<p style="margin: 0px;">Status:<span id="log-in-out-text"></span></p>
+							</div>
+							<div class="card-content card-content-padding">
+								<a id="all-albums-link" href="/fb-albums/" class="button button-fill">Fb Albums</a>
+							</div>
+							<div class="card-footer">
+								<a id="log-in-out-fb-link" class="button button-fill"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/framework7/3.1.0/js/framework7.min.js"></script>
+		<script src="fb-code.js"></script>
+		<script src="script.js"></script>
+	</body>
 </html>
