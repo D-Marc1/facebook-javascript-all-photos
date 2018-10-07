@@ -7,7 +7,7 @@ class FbAllPhotos {
     return this.fbAlbumsPhotosObj
   }
 
-  getAlbums(limitAlbums = 5, winCallback, failCallback) {
+  getAlbums(limitAlbums = 25, winCallback, failCallback) {
     FB.api('/me?fields=albums.limit(' + limitAlbums + '){name,count,cover_photo{picture}}', response => {
       if(response.error) {
         if(typeof failCallback === 'function') failCallback('error');
@@ -28,7 +28,7 @@ class FbAllPhotos {
   }
 
   getPhotosInAlbum(albumId, limitPics = 10, winCallback, failCallback) {
-    const index = this.fbAlbumsPhotosObj.data.findIndex(album => album.id == albumId); //Get index of album
+    const index = this.fbAlbumsPhotosObj.data.findIndex(album => album.id == albumId); //Get index of album. Loose checking due to id as string
 
     if(index === -1) {
       if(typeof failCallback === 'function') failCallback('noAlbum');
@@ -55,49 +55,59 @@ class FbAllPhotos {
     });
   }
 
-  getMoreAlbums(winCallback, failCallback) {
+  async getMoreAlbums(winCallback, failCallback) {
     if(!this.fbAlbumsPhotosObj.paging.hasOwnProperty('next')) { //If there are no more albums
       if(typeof failCallback === 'function') failCallback('noMore');
       return;
     }
 
-    app.request.json(this.fbAlbumsPhotosObj.paging.next, response => {
-      response.data.forEach(album => {
-        album.cover_photo = album.cover_photo.picture; //All we need is picture
-      });
+    try {
+			let response = await fetch(this.fbAlbumsPhotosObj.paging.next);
+			if(!response.ok) throw new Error('Server error');
+			response = await response.json();
 
-      this.fbAlbumsPhotosObj.data.push(...response.data); //Append albums
-      this.fbAlbumsPhotosObj.paging = response.paging; //Set paging to new values
+			response.data.forEach(album => {
+			  album.cover_photo = album.cover_photo.picture; //All we need is picture
+			});
 
-      if(typeof winCallback === 'function') winCallback(this.fbAlbumsPhotosObj);
-    }, () => {
+			this.fbAlbumsPhotosObj.data.push(...response.data); //Append albums
+			this.fbAlbumsPhotosObj.paging = response.paging; //Set paging to new values
+
+			if(typeof winCallback === 'function') winCallback(this.fbAlbumsPhotosObj);
+    } catch(error) {
       if(typeof failCallback === 'function') failCallback('error');
-    });
+      return;
+    }
   }
 
-  getMorePhotosInAlbum(albumId, winCallback, failCallback) {
-    const index = this.fbAlbumsPhotosObj.data.findIndex(album => album.id == albumId); //Get index of album
+  async getMorePhotosInAlbum(albumId, winCallback, failCallback) {
+    const index = this.fbAlbumsPhotosObj.data.findIndex(album => album.id == albumId); //Get index of album. //Get index of album. Loose checking due to id as string
 
-    if(index === -1) {
+    if(index === -1) { //If there are no more albums
       if(typeof failCallback === 'function') failCallback('noAlbum');
       return;
     } else if(!this.fbAlbumsPhotosObj.data[index].photos.paging.hasOwnProperty('next')) { //If there are no more albums
       if(typeof failCallback === 'function') failCallback('noMore');
       return;
     }
-    
-    app.request.json(this.fbAlbumsPhotosObj.data[index].photos.paging.next, response => {
-      response.data.forEach(photo => {
-        photo.picture_full = photo.images[0].source; //[0] is the largest image
-        delete photo.images; //Don't need the rest, only one
-      });
 
-      this.fbAlbumsPhotosObj.data[index].photos.data.push(...response.data); //Append photos in album
-      this.fbAlbumsPhotosObj.data[index].photos.paging = response.paging; //Set paging to new values
+    try {
+			let response = await fetch(this.fbAlbumsPhotosObj.paging.next);
+			if(!response.ok) throw new Error('Server error');
+			response = await response.json();
 
-      if(typeof winCallback === 'function') winCallback(this.fbAlbumsPhotosObj.data[index].photos);
-    }, () => {
+			response.data.forEach(photo => {
+			  photo.picture_full = photo.images[0].source; //[0] is the largest image
+			  delete photo.images; //Don't need the rest, only one
+			});
+
+			this.fbAlbumsPhotosObj.data[index].photos.data.push(...response.data); //Append photos in album
+			this.fbAlbumsPhotosObj.data[index].photos.paging = response.paging; //Set paging to new values
+
+			if(typeof winCallback === 'function') winCallback(this.fbAlbumsPhotosObj.data[index].photos);
+    } catch(error) {
       if(typeof failCallback === 'function') failCallback('error');
-    });
+      return;
+    }
   }
 }

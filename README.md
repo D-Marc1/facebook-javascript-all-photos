@@ -10,7 +10,7 @@ A full writeup can be found here https://websitebeaver.com/facebook-api-javascri
 
 Firstly, you must get approved by [approved by Facebook](https://developers.facebook.com/docs/facebook-login/review/how-to-submit) to use `user_photos` permissions.
 
-Once you're aproved, you just need to change the `addId` property on `FB.init()`, which is located in **index.html**.
+Once you're aproved, you just need to change the `appId` property on `FB.init()`, which is located in **index.html**.
 
 ```javascript
 FB.init({
@@ -34,7 +34,7 @@ new FbAllPhotos()
 ## getAlbums()
 
 ```javascript
-function getAlbums(int limitAlbums = 5, function winCallback(obj response), function failCallback(string error))
+function getAlbums(int limitAlbums = 25, function winCallback(obj response), function failCallback(string error))
 ```
 
 **Description**
