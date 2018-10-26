@@ -9,7 +9,7 @@ class FbAllPhotos {
 
 	getAlbums(limitAlbums, winCallback, failCallback) {
 		FB.api('/me?fields=albums.limit(' + limitAlbums + '){name,count,cover_photo{picture}}', response => {
-			if(!response && response.error) {
+			if(response && response.error) { //If response exists and error
 				if(typeof failCallback === 'function') failCallback('error');
 				return;
 			} else if(!response || !response.hasOwnProperty('albums')) {
@@ -36,7 +36,7 @@ class FbAllPhotos {
 		}
 
 		FB.api(albumId + '/?fields=photos.limit(' + limitPics + '){picture,images}', response => {
-			if(!response && response.error) {
+			if(response && response.error) { //If response exists and error
 				if(typeof failCallback === 'function') failCallback('error');
 				return;
 			} else if(!response || !response.hasOwnProperty('photos')) {
