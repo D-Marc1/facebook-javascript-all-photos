@@ -7,9 +7,9 @@ class FbAllPhotos {
 		return this.fbAlbumsPhotosObj
 	}
 
-	getAlbums(limitAlbums = 25, winCallback, failCallback) {
+	getAlbums(limitAlbums, winCallback, failCallback) {
 		FB.api('/me?fields=albums.limit(' + limitAlbums + '){name,count,cover_photo{picture}}', response => {
-			if(response.error) {
+			if(!response && response.error) {
 				if(typeof failCallback === 'function') failCallback('error');
 				return;
 			} else if(!response || !response.hasOwnProperty('albums')) {
@@ -27,7 +27,7 @@ class FbAllPhotos {
 		});
 	}
 
-	getPhotosInAlbum(albumId, limitPics = 10, winCallback, failCallback) {
+	getPhotosInAlbum(albumId, limitPics, winCallback, failCallback) {
 		const index = this.fbAlbumsPhotosObj.data.findIndex(album => album.id == albumId); //Get index of album. Loose checking due to id as string
 
 		if(index === -1) {
@@ -36,7 +36,7 @@ class FbAllPhotos {
 		}
 
 		FB.api(albumId + '/?fields=photos.limit(' + limitPics + '){picture,images}', response => {
-			if(!response || response.error) {
+			if(!response && response.error) {
 				if(typeof failCallback === 'function') failCallback('error');
 				return;
 			} else if(!response || !response.hasOwnProperty('photos')) {
