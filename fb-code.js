@@ -10,7 +10,7 @@ class FbAllPhotos {
 	getAlbums(limitAlbums, winCallback, failCallback) {
 		FB.api('/me?fields=albums.limit(' + limitAlbums + '){name,count,cover_photo{picture}}', response => {
 			if(response && response.error) { //If response exists and error
-				if(typeof failCallback === 'function') failCallback('error');
+				if(typeof failCallback === 'function') failCallback(response.error);
 				return;
 			} else if(!response || !response.hasOwnProperty('albums')) {
 				if(typeof failCallback === 'function') failCallback('noResponse');
@@ -18,7 +18,7 @@ class FbAllPhotos {
 			}
 
 			response.albums.data.forEach(album => {
-				album.cover_photo = album.cover_photo.picture; //All we need is picture
+				album.cover_photo = (album.cover_photo) ? album.cover_photo.picture : ''; //All we need is picture
 			});
 
 			this.fbAlbumsPhotosObj = response.albums;
@@ -37,7 +37,7 @@ class FbAllPhotos {
 
 		FB.api(albumId + '/?fields=photos.limit(' + limitPics + '){picture,images}', response => {
 			if(response && response.error) { //If response exists and error
-				if(typeof failCallback === 'function') failCallback('error');
+				if(typeof failCallback === 'function') failCallback(response.error);
 				return;
 			} else if(!response || !response.hasOwnProperty('photos')) {
 				if(typeof failCallback === 'function') failCallback('noResponse');
@@ -67,7 +67,7 @@ class FbAllPhotos {
 			response = await response.json();
 
 			response.data.forEach(album => {
-				album.cover_photo = album.cover_photo.picture; //All we need is picture
+				album.cover_photo = (album.cover_photo) ? album.cover_photo.picture : ''; //All we need is picture
 			});
 
 			this.fbAlbumsPhotosObj.data.push(...response.data); //Append albums
@@ -75,7 +75,7 @@ class FbAllPhotos {
 
 			if(typeof winCallback === 'function') winCallback(this.fbAlbumsPhotosObj);
 		} catch(error) {
-			if(typeof failCallback === 'function') failCallback('error');
+			if(typeof failCallback === 'function') failCallback(error);
 			return;
 		}
 	}
@@ -106,7 +106,7 @@ class FbAllPhotos {
 
 			if(typeof winCallback === 'function') winCallback(this.fbAlbumsPhotosObj.data[index].photos);
 		} catch(error) {
-			if(typeof failCallback === 'function') failCallback('error');
+			if(typeof failCallback === 'function') failCallback(error);
 			return;
 		}
 	}
