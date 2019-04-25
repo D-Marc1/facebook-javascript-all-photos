@@ -35,7 +35,7 @@ Class to simplify getting all Facebook albums and photos and albums using Facebo
     * [.getProfilePicture()](#FbAllPhotos+getProfilePicture)
     * [.getAlbums([limitAlbums])](#FbAllPhotos+getAlbums)
     * [.getPhotosInAlbum(albumId, [limitPhotos])](#FbAllPhotos+getPhotosInAlbum)
-    * [.getMoreAlbums(albumId, [limitPhotos])](#FbAllPhotos+getMoreAlbums)
+    * [.getMoreAlbums()](#FbAllPhotos+getMoreAlbums)
     * [.getMorePhotosInAlbum(albumId)](#FbAllPhotos+getMorePhotosInAlbum)
 
 <a name="new_FbAllPhotos_new"></a>
@@ -125,18 +125,12 @@ fbAllPhotos.getPhotosInAlbum(albumId, 15)
 ```
 <a name="FbAllPhotos+getMoreAlbums"></a>
 
-### fbAllPhotos.getMoreAlbums(albumId, [limitPhotos])
+### fbAllPhotos.getMoreAlbums()
 Get more Facebook albums.
 
 **Kind**: instance method of [<code>FbAllPhotos</code>](#FbAllPhotos)  
 **Fulfil**: <code>object</code> - The full Facebook albums and photos object.  
 **Reject**: <code>Error</code> - Rejected promise with message.  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| albumId | <code>int</code> |  | The album id to get photos from. |
-| [limitPhotos] | <code>int</code> | <code>25</code> | The number of photos in an album to retrieve. |
-
 **Example**  
 ```js
 fbAllPhotos.getMoreAlbums()

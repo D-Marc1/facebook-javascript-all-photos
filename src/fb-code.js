@@ -158,8 +158,6 @@ class FbAllPhotos {
 	/**
 	 * Get more Facebook albums.
 	 *
-	 * @param {int} albumId - The album id to get photos from.
-	 * @param {int} [limitPhotos = 25] - The number of photos in an album to retrieve.
 	 * @fulfil {object} - The full Facebook albums and photos object.
 	 * @reject {Error} - Rejected promise with message.
 	 * @example
