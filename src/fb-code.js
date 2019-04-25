@@ -29,7 +29,7 @@ class FbAllPhotos {
 	 *     } else if(errorMsg === 'noProfilePicture') {
 	 *       console.log('No profile picture');
 	 *     }
-   *   });
+	 *   });
 	 */
 	getProfilePicture() {
 		return new Promise((resolve, reject) => {
@@ -70,7 +70,7 @@ class FbAllPhotos {
 	 *     } else if(errorMsg === 'noAlbums') {
 	 *       console.log('No albums');
 	 *     }
-   *   });
+	 *   });
 	 */
 	getAlbums(limitAlbums = 25) {
 		return new Promise((resolve, reject) => {
@@ -118,7 +118,7 @@ class FbAllPhotos {
 	 *     } else if(errorMsg === 'noPhotos') {
 	 *       console.log('No photos in album');
 	 *     }
-   *   });
+	 *   });
 	 */
 	getPhotosInAlbum(albumId, limitPhotos = 25) {
 		return new Promise((resolve, reject) => {
@@ -171,7 +171,7 @@ class FbAllPhotos {
 	 *     } else if(errorMsg === 'noMore') {
 	 *       console.log('No more albums to retrieve');
 	 *     }
-   *   });
+	 *   });
 	 */
 	async getMoreAlbums() {
 		let errorReturnMsg = '';
@@ -231,7 +231,7 @@ class FbAllPhotos {
 	 *     } else if(errorMsg === 'noMore') {
 	 *       console.log('No more photos in album to retrieve');
 	 *     }
-   *   });
+	 *   });
 	 */
 	async getMorePhotosInAlbum(albumId) {
 		let errorReturnMsg = '';
