@@ -179,7 +179,7 @@ class FbAllPhotos {
 		this.errorObj = {}; //Reset error object
 
 		if(!this.fullObj.paging.hasOwnProperty('next')) { //If there are no more albums
-			errorReturnMsg = 'noMore';
+			throw 'noMore';
 		}
 
 		const response = await fetch(this.fullObj.paging.next);
