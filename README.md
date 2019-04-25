@@ -23,74 +23,162 @@ FB.init({
 
 # Just Using the Functions
 
-I made this in demo form for anyone to quickly get things workings. But if you'd like to just use the functions, then all you need is **fb-code.js**. You can obviously also use it as a starting point and edit each function to suit your needs. As shown in the tutorial, this will all be stored in an object called `fbAlbumsPhotosObj`. Additionally it'll be the response of `winCallback` for each function.
+<a name="FbAllPhotos"></a>
 
-## Constructor
+## FbAllPhotos
+Class to simplify getting all Facebook albums and photos and albums using Facebook API.
 
-```javascript
-new FbAllPhotos()
+**Kind**: global class  
+
+* [FbAllPhotos](#FbAllPhotos)
+    * [new FbAllPhotos()](#new_FbAllPhotos_new)
+    * [.getProfilePicture()](#FbAllPhotos+getProfilePicture)
+    * [.getAlbums([limitAlbums])](#FbAllPhotos+getAlbums)
+    * [.getPhotosInAlbum(albumId, [limitPhotos])](#FbAllPhotos+getPhotosInAlbum)
+    * [.getMoreAlbums(albumId, [limitPhotos])](#FbAllPhotos+getMoreAlbums)
+    * [.getMorePhotosInAlbum(albumId)](#FbAllPhotos+getMorePhotosInAlbum)
+
+<a name="new_FbAllPhotos_new"></a>
+
+### new FbAllPhotos()
+Create empty object.
+
+**Example**  
+```js
+const fbAllPhotos = new FbAllPhotos();
 ```
 
-## getAlbums()
+<a name="FbAllPhotos+getProfilePicture"></a>
 
-```javascript
-function getAlbums(int limitAlbums = 25, function winCallback(obj response), function failCallback(string error))
+### fbAllPhotos.getProfilePicture()
+Get Facebook profile picture.
+
+**Kind**: instance method of [<code>FbAllPhotos</code>](#FbAllPhotos)  
+**Fulfil**: <code>string</code> - The url of the Facebook profile picture  
+**Reject**: <code>Error</code> - Rejected promise with message.  
+**Example**  
+```js
+fbAllPhotos.getProfilePicture()
+  .then(profilePictureURL => { console.log(profilePictureURL); })
+  .catch(errorMsg => {
+    if(errorMsg === 'fbError') {
+      console.log(fbAllPhotos.errorObj.message);
+    } else if(errorMsg === 'noProfilePicture') {
+      console.log('No profile picture');
+    }
+  });
 ```
+<a name="FbAllPhotos+getAlbums"></a>
 
-**Description**
+### fbAllPhotos.getAlbums([limitAlbums])
+Get Facebook albums.
 
-Get Facebook albums
+**Kind**: instance method of [<code>FbAllPhotos</code>](#FbAllPhotos)  
+**Fulfil**: <code>object</code> - The full Facebook albums and photos object.  
+**Reject**: <code>Error</code> - Rejected promise with message.  
 
-**Parameters**
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [limitAlbums] | <code>int</code> | <code>25</code> | The number of albums to retrieve. |
 
-- **limitAlbums** - The amount of albums to fetch at once
-- **winCallback(response)** - On success
-- **failCallback(error)** - On failure
-
-## getPhotosInAlbum()
-
-```javascript
-function getPhotosInAlbum(int|string albumId, int limitPics = 10, function winCallback(obj response), function failCallback(string error))
+**Example**  
+```js
+fbAllPhotos.getAlbums(15)
+  .then(fullObj => { console.log(fullObj); })
+  .catch(errorMsg => {
+    if(errorMsg === 'fbError') {
+      console.log(fbAllPhotos.errorObj.message);
+    } else if(errorMsg === 'noAlbums') {
+      console.log('No albums');
+    }
+  });
 ```
+<a name="FbAllPhotos+getPhotosInAlbum"></a>
 
-**Description**
+### fbAllPhotos.getPhotosInAlbum(albumId, [limitPhotos])
+Get Facebook photos in a specified album.
 
-Get Facebook photos in an album
+**Kind**: instance method of [<code>FbAllPhotos</code>](#FbAllPhotos)  
+**Fulfil**: <code>object</code> - Object with only specified album and its photos.  
+**Reject**: <code>Error</code> - Rejected promise with message.  
 
-**Parameters**
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| albumId | <code>int</code> |  | The album id to get photos from. |
+| [limitPhotos] | <code>int</code> | <code>25</code> | The number of photos in an album to retrieve. |
 
-- **albumId** - The album id to get photos from. Should just be `int`, but Facebook API returns the album id as a `string`
-- **limitAlbums** - The amount of photos to fetch at once
-- **winCallback(response)** - On success
-- **failCallback(error)** - On failure
+**Example**  
+```js
+const albumId = 8395830308572754;
 
-## getMoreAlbums()
-
-```javascript
-function getMoreAlbums(function winCallback(obj response), function failCallback(string error))
+fbAllPhotos.getPhotosInAlbum(albumId, 15)
+  .then(albumObj => { console.log(albumObj); })
+  .catch(errorMsg => {
+    if(errorMsg === 'fbError') {
+      console.log(fbAllPhotos.errorObj.message);
+    } else if(errorMsg === 'noAlbum') {
+      console.log('Album does not exist');
+    } else if(errorMsg === 'noPhotos') {
+      console.log('No photos in album');
+    }
+  });
 ```
+<a name="FbAllPhotos+getMoreAlbums"></a>
 
-**Description**
+### fbAllPhotos.getMoreAlbums(albumId, [limitPhotos])
+Get more Facebook albums.
 
-Get more Facebook albums until depletion
+**Kind**: instance method of [<code>FbAllPhotos</code>](#FbAllPhotos)  
+**Fulfil**: <code>object</code> - The full Facebook albums and photos object.  
+**Reject**: <code>Error</code> - Rejected promise with message.  
 
-**Parameters**
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| albumId | <code>int</code> |  | The album id to get photos from. |
+| [limitPhotos] | <code>int</code> | <code>25</code> | The number of photos in an album to retrieve. |
 
-- **winCallback(response)** - On success
-- **failCallback(error)** - On failure
-
-## getMorePhotosInAlbum()
-
-```javascript
-function getMorePhotosInAlbum(int|string albumId, function winCallback(obj response), function failCallback(string error))
+**Example**  
+```js
+fbAllPhotos.getMoreAlbums()
+  .then(fullObj => { console.log(fullObj); })
+  .catch(errorMsg => {
+    if(errorMsg === 'fbError') {
+      console.log(fbAllPhotos.errorObj.message); //Error message from Facebook
+    } else if(errorMsg === 'serverError') {
+      console.log(fbAllPhotos.errorObj); //Fetch API response object
+    } else if(errorMsg === 'noMore') {
+      console.log('No more albums to retrieve');
+    }
+  });
 ```
+<a name="FbAllPhotos+getMorePhotosInAlbum"></a>
 
-**Description**
+### fbAllPhotos.getMorePhotosInAlbum(albumId)
+Get more Facebook photos in a specified album.
 
-Get more Facebook photos in album until depletion
+**Kind**: instance method of [<code>FbAllPhotos</code>](#FbAllPhotos)  
+**Fulfil**: <code>object</code> - Object with only specified album and its photos.  
+**Reject**: <code>Error</code> - Rejected promise with message.  
 
-**Parameters**
+| Param | Type | Description |
+| --- | --- | --- |
+| albumId | <code>int</code> | The album id to get more photos from. |
 
-- **albumId** - The album id to get photos from. Should just be `int`, but Facebook API returns the album id as a `string`
-- **winCallback(response)** - On success
-- **failCallback(error)** - On failure
+**Example**  
+```js
+const albumId = 8395830308572754;
+
+fbAllPhotos.getMorePhotosInAlbum(albumId)
+  .then(albumObj => { console.log(albumObj); })
+  .catch(errorMsg => {
+    if(errorMsg === 'fbError') {
+      console.log(fbAllPhotos.errorObj.message); //Error message from Facebook
+    } else if(errorMsg === 'serverError') {
+      console.log(fbAllPhotos.errorObj); //Fetch API response object
+    } else if(errorMsg === 'noAlbum') {
+      console.log('Album does not exist');
+    } else if(errorMsg === 'noMore') {
+      console.log('No more photos in album to retrieve');
+    }
+  });
+```

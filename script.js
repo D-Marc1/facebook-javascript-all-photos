@@ -1,9 +1,9 @@
 let currentAlbum;
-let pageLoaded = {fbAlbums: false, fbPhotos: false};
+const pageLoaded = {fbAlbums: false, fbPhotos: false};
 
-let fb = new FbAllPhotos();
+const fbAllPhotos = new FbAllPhotos();
 
-let app = new Framework7({
+const app = new Framework7({
 	root: '#app',
 	name: 'Get all Facebook Album Photos',
 	routes: [
@@ -13,7 +13,7 @@ let app = new Framework7({
 		},
 		{
 			path: '/fb-albums/',
-			async: (routeTo, routeFrom, resolve, reject) => {
+			async: async (routeTo, routeFrom, resolve, reject) => {
 				function getDataTemplate(response) {
 					resolve(
 						{
@@ -28,70 +28,58 @@ let app = new Framework7({
 				}
 
 				if(pageLoaded.fbAlbums) { //If page already loaded
-					getDataTemplate(fb.fullObj);
+					getDataTemplate(fbAllPhotos.fullObj);
 				} else {
-					fb.getAlbums(5, response => {
-						getDataTemplate(response);
+					try {
+						getDataTemplate(await fbAllPhotos.getAlbums(7));
 						pageLoaded.fbAlbums = true;
-					}, response => {
-						var userMsg;
+					} catch(errorMsg) {
+						let userMsg = '';
 
-						if(response === 'error') {
-							userMsg = 'Error getting albums';
-						} else if(response === 'noResponse') {
+						if(errorMsg === 'fbError') {
+							userMsg = fbAllPhotos.errorObj.message;
+						} else if(errorMsg === 'noAlbums') {
 							userMsg = 'No albums';
 						}
 
 						app.dialog.alert('', userMsg);
-					});
+					}
 				}
 			}
 		},
 		{
 			path: '/fb-photos/',
-			async: (routeTo, routeFrom, resolve, reject) => {
-				const index = fb.fullObj.data.findIndex(album => album.id == currentAlbum); //get index of album
+			async: async (routeTo, routeFrom, resolve, reject) => {
+				try {
+					const photosObj = await fbAllPhotos.getPhotosInAlbum(currentAlbum, 5);
 
-				if(index === -1) {
-					app.dialog.alert('', 'Album does not exist');
-					return;
-				}
-
-				function getDataTemplate(response) {
 					resolve(
 						{
 							templateUrl: 'fb-photos.html'
 						},
 						{
 							context: {
-								photos: response.data,
-								album_id: fb.fullObj.data[index].id,
-								album_name: fb.fullObj.data[index].name
+								photos: photosObj.data,
+								album_id: photosObj.data.id,
+								album_name: photosObj.data.name
 							}
 						}
 					);
-				}
 
-				if(pageLoaded.fbPhotos && fb.fullObj.data[index].hasOwnProperty('photos')) { //If page already loaded and fb.getPhotosInAlbum() called for album
-					getDataTemplate(fb.fullObj.data[index].photos);
-				} else {
-					fb.getPhotosInAlbum(currentAlbum, 5, response => {
-						getDataTemplate(response);
-						pageLoaded.fbPhotos = true;
-					}, response => {
-						var userMsg;
+					pageLoaded.fbPhotos = true;
+				} catch(errorMsg) {
+					let userMsg;
 
-						if(response === 'error') {
-							userMsg = 'Error getting photos';
-						} else if(response === 'noResponse') {
-							userMsg = 'No photos';
-						} else if(response === 'noAlbum') {
-							userMsg = 'Album does not exist';
-						}
+					if(errorMsg === 'fbError') {
+						userMsg = fbAllPhotos.errorObj.message;
+					} else if(errorMsg === 'noAlbum') {
+						userMsg = 'Album does not exist';
+					} else if(errorMsg === 'noPhotos') {
+						userMsg = 'No photos';
+					}
 
-						app.dialog.alert('', userMsg);
-						reject();
-					});
+					app.dialog.alert('', userMsg);
+					reject();
 				}
 			}
 		}
@@ -144,41 +132,49 @@ let app = new Framework7({
 					mainView.router.navigate('/fb-photos/');
 				});
 
-				$$('#load-more-albums-link').click(function() {
-					fb.getMoreAlbums(response => {
-						mainView.router.refreshPage();
-					}, response => {
-						var userMsg;
+				$$('#load-more-albums-link').click(async function() {
+					try {
+						await fbAllPhotos.getMoreAlbums();
 
-						if(response === 'error') {
-							userMsg = 'Error getting more albums';
+						mainView.router.refreshPage();
+					} catch(errorMsg) {
+						let userMsg;
+
+						if(errorMsg === 'fbError') {
+							userMsg = fbAllPhotos.errorObj.message;
+						} else if(errorMsg === 'serverError') {
+							userMsg = 'Server error';
 						} else if(response === 'noMore') {
-							userMsg = 'No more albums';
+							userMsg = 'No more albums to retrieve';
 						}
 
 						app.dialog.alert('', userMsg);
-					});
+					}
 				});
 			} else if(page.name === 'fb-photos') {
-				$$('#load-more-photos-link').click(function() {
+				$$('#load-more-photos-link').click(async function() {
 					currentAlbum = $$(this).data('album-id');
-					const index = fb.fullObj.data.findIndex(album => album.id == currentAlbum); //get index of album
 
-					if(index === -1) {
-						app.dialog.alert('', 'Album does not exist');
-						return;
+					try {
+						await fbAllPhotos.getMorePhotosInAlbum(currentAlbum);
+
+						mainView.router.refreshPage();
+					} catch(errorMsg) {
+						let userMsg;
+
+						if(errorMsg === 'fbError') {
+							userMsg = fbAllPhotos.errorObj.message;
+						} else if(errorMsg === 'serverError') {
+							userMsg = 'Server error';
+						} else if(errorMsg === 'noMore') {
+							userMsg = 'No more photos in album to retrieve';
+						} else if(errorMsg === 'noAlbum') {
+							userMsg = 'Album does not exist';
+						}
+
+						app.dialog.alert('', userMsg);
 					}
 
-					if(fb.fullObj.data[index].photos.paging.hasOwnProperty('next')) {
-						fb.getMorePhotosInAlbum(currentAlbum, response => {
-							mainView.router.refreshPage();
-						}, response => {
-							//the only error needed to handle, due to if check above to check object's next prop
-							app.dialog.alert('', 'Error getting more photos');
-						});
-					} else {
-						app.dialog.alert('', 'No more photos in album');
-					}
 				});
 
 				$$('.photo-thumb-link').click(function() {
@@ -195,9 +191,9 @@ let app = new Framework7({
 	}
 });
 
-let $$ = Dom7;
+const $$ = Dom7;
 
-let mainView = app.views.create('.view-main', {
+const mainView = app.views.create('.view-main', {
 	url: '/',
 	stackPages: true
 });
