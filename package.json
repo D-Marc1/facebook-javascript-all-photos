@@ -1,6 +1,6 @@
 {
   "name": "facebook-javascript-all-photos",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Get all Facebook albums and photos https://websitebeaver.com/facebook-api-javascript-sdk-get-all-albums-and-photos",
   "main": "src/fb-code.js",
   "scripts": {
