@@ -27,7 +27,7 @@ git clone https://github.com/WebsiteBeaver/facebook-javascript-all-photos.git
 
 ```
 
-**Reference File**
+**Import**
 
 ```javascript
 import FbAllPhotos from 'facebook-javascript-all-photos/src/fb-code.js';
