@@ -1,6 +1,6 @@
 {
   "name": "facebook-javascript-all-photos",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Get all Facebook albums and photos https://websitebeaver.com/facebook-api-javascript-sdk-get-all-albums-and-photos",
   "main": "src/fb-code.js",
   "scripts": {
@@ -25,5 +25,6 @@
   "bugs": {
     "url": "https://github.com/WebsiteBeaver/facebook-javascript-all-photos/issues"
   },
-  "homepage": "https://github.com/WebsiteBeaver/facebook-javascript-all-photos#readme"
+  "homepage": "https://github.com/WebsiteBeaver/facebook-javascript-all-photos#readme",
+  "devDependencies": {}
 }

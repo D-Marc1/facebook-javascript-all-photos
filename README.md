@@ -6,9 +6,9 @@ A simple demo of how to use the Facebook API with the JavaScript SDK to get all 
 
 A full writeup can be found here https://websitebeaver.com/facebook-api-javascript-sdk-get-all-albums-and-photos, along with a [demo video](https://www.youtube.com/watch?v=s8kasi_8nIo).
 
-# Install
+## Install
 
-## NPM
+### NPM
 
 ```
 npm install facebook-javascript-all-photos
@@ -20,7 +20,7 @@ npm install facebook-javascript-all-photos
 import FbAllPhotos from 'facebook-javascript-all-photos';
 ```
 
-## Git
+### Git
 
 ```
 git clone https://github.com/WebsiteBeaver/facebook-javascript-all-photos.git
@@ -32,7 +32,7 @@ git clone https://github.com/WebsiteBeaver/facebook-javascript-all-photos.git
 import FbAllPhotos from 'facebook-javascript-all-photos/src/fb-code.js';
 ```
 
-# How to Use?
+## How to Use?
 
 Firstly, you must get approved by [approved by Facebook](https://developers.facebook.com/docs/facebook-login/review/how-to-submit) to use `user_photos` permissions.
 
@@ -47,21 +47,26 @@ FB.init({
 });
 ```
 
-# Just Using the Functions
-
 <a name="FbAllPhotos"></a>
 
 ## FbAllPhotos
 Class to simplify getting all Facebook albums and photos and albums using Facebook API.
 
 **Kind**: global class  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| fullObj | <code>object</code> | Full object of Facebook albums, photos and pagination. |
+| errorObj | <code>object</code> | Facebook-specific error object. |
+| profilePictureURL | <code>string</code> | Facebook profile picture URL. const fbAllPhotos = new FbAllPhotos(); |
+
 
 - [Facebook API JavaScript SDK get all Albums and Photos](#facebook-api-javascript-sdk-get-all-albums-and-photos)
-- [Install](#install)
-  - [NPM](#npm)
-  - [Git](#git)
-- [How to Use?](#how-to-use)
-- [Just Using the Functions](#just-using-the-functions)
+  - [Install](#install)
+    - [NPM](#npm)
+    - [Git](#git)
+  - [How to Use?](#how-to-use)
   - [FbAllPhotos](#fballphotos)
     - [new FbAllPhotos()](#new-fballphotos)
     - [fbAllPhotos.getProfilePicture()](#fballphotosgetprofilepicture)
@@ -86,7 +91,7 @@ const fbAllPhotos = new FbAllPhotos();
 Get Facebook profile picture.
 
 **Kind**: instance method of [<code>FbAllPhotos</code>](#FbAllPhotos)  
-**Fulfil**: <code>string</code> - The url of the Facebook profile picture  
+**Fulfil**: <code>string</code> - The url of the Facebook profile picture.  
 **Reject**: <code>Error</code> - Rejected promise with message.  
 **Example**  
 ```js

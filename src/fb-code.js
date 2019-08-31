@@ -6,7 +6,9 @@ class FbAllPhotos {
 
 	/**
 	 * Create empty object.
-	 * @example
+	 * @property {object} fullObj - Full object of Facebook albums, photos and pagination.
+	 * @property {object} errorObj - Facebook-specific error object.
+	 * @property {string} profilePictureURL - Facebook profile picture URL.
 	 * const fbAllPhotos = new FbAllPhotos();
 	 */
 	constructor() {
@@ -18,7 +20,7 @@ class FbAllPhotos {
 	/**
 	 * Get Facebook profile picture.
 	 *
-	 * @fulfil {string} - The url of the Facebook profile picture
+	 * @fulfil {string} - The url of the Facebook profile picture.
 	 * @reject {Error} - Rejected promise with message.
 	 * @example
 	 * fbAllPhotos.getProfilePicture()
