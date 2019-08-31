@@ -24,7 +24,6 @@ import FbAllPhotos from 'facebook-javascript-all-photos';
 
 ```
 git clone https://github.com/WebsiteBeaver/facebook-javascript-all-photos.git
-
 ```
 
 **Import**
