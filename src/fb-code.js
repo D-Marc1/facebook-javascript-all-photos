@@ -275,3 +275,5 @@ class FbAllPhotos {
 		return this.fullObj.data[index].photos;
 	}
 }
+
+export default FbAllPhotos;

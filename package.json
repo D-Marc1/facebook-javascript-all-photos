@@ -1,0 +1,29 @@
+{
+  "name": "facebook-javascript-all-photos",
+  "version": "1.0.0",
+  "description": "Get all Facebook albums and photos https://websitebeaver.com/facebook-api-javascript-sdk-get-all-albums-and-photos",
+  "main": "src/fb-code.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebsiteBeaver/facebook-javascript-all-photos.git"
+  },
+  "keywords": [
+    "Facebbok",
+    "Facebook",
+    "API",
+    "Facebook",
+    "Javascript",
+    "Facebook",
+    "JavaScript",
+    "SDK"
+  ],
+  "author": "Daniel Marcus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WebsiteBeaver/facebook-javascript-all-photos/issues"
+  },
+  "homepage": "https://github.com/WebsiteBeaver/facebook-javascript-all-photos#readme"
+}
