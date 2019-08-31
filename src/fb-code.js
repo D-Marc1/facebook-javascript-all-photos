@@ -9,6 +9,7 @@ class FbAllPhotos {
 	 * @property {object} fullObj - Full object of Facebook albums, photos and pagination.
 	 * @property {object} errorObj - Facebook-specific error object.
 	 * @property {string} profilePictureURL - Facebook profile picture URL.
+	 * @example 
 	 * const fbAllPhotos = new FbAllPhotos();
 	 */
 	constructor() {

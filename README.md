@@ -59,7 +59,7 @@ Class to simplify getting all Facebook albums and photos and albums using Facebo
 | --- | --- | --- |
 | fullObj | <code>object</code> | Full object of Facebook albums, photos and pagination. |
 | errorObj | <code>object</code> | Facebook-specific error object. |
-| profilePictureURL | <code>string</code> | Facebook profile picture URL. const fbAllPhotos = new FbAllPhotos(); |
+| profilePictureURL | <code>string</code> | Facebook profile picture URL. |
 
 
 - [Facebook API JavaScript SDK get all Albums and Photos](#facebook-api-javascript-sdk-get-all-albums-and-photos)
@@ -84,7 +84,6 @@ Create empty object.
 ```js
 const fbAllPhotos = new FbAllPhotos();
 ```
-
 <a name="FbAllPhotos+getProfilePicture"></a>
 
 ### fbAllPhotos.getProfilePicture()
